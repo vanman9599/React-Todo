@@ -42,6 +42,17 @@ class App extends React.Component {
     );
     
   }
+
+  addTodo = event => {
+    event.preventDefault();
+    const newTodo = { task: this.state.todo.task, completed: false, id: Date.now() };
+    this.setState({ 
+      todos: [...this.state.todos, newTodo], 
+      todo: '' 
+    });
+  };
+
+  changeTodo = event => this.setState({ [event.target.name]: event.target.value });
   
 }
 

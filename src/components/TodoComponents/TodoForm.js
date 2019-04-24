@@ -11,9 +11,7 @@ const TodoForm = props => {
 export default TodoForm;
 
 {/* <div className="class-list">
-          {this.state.todos.map(student => (
-            <Todo student={student} key={student.name} />
-          ))}
+        
         </div>
         <form onSubmit={this.addStudent}>
           <input
