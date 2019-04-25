@@ -1,25 +1,39 @@
+import React from "react";
 
-import React from 'react';
-// your components will all go in this `component` directory.
-// feel free to change this component.js into TodoList.js
-const TodoForm = props => {
-    return(
-        <div><h1>More testing...</h1></div>
-    )
+export default class TodoForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: ""
+    };
+  }
+  // updates local state to handle the controlled input form
+  onUpdate = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  // this prevents the form submit default (refreshing), and then calls
+  // the addItem function passed down on props from App, passing the
+  // this.state.input as the argument, so a new item can be created in App's
+  // state
+  handleSubmit = event => {
+    event.preventDefault();
+    this.props.addItem(this.state.input);
+    this.setState({ input: "" });
+  };
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <input
+          type="text"
+          name="input"
+          id="new-item"
+          value={this.state.input}
+          onChange={this.onUpdate}
+        />
+        <button type="submit">Add Task</button>
+      </form>
+    );
+  }
 }
-
-export default TodoForm;
-
-{/* <div className="class-list">
-        
-        </div>
-        <form onSubmit={this.addStudent}>
-          <input
-            placeholder="Todo"
-            value={this.state.student.name}
-            onChange={this.handleChanges}
-            name="name"
-          />
-          <button class="add">Add Todo</button>
-          <button class="clear">Clear Completed</button>
-        </form> */}

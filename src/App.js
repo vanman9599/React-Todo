@@ -1,59 +1,87 @@
-import React from 'react';
-import TodoList from './components/TodoComponents/TodoList';
-import TodoForm from './components/TodoComponents/TodoForm';
+import React from "react";
+import ReactDOM from "react-dom";
+import TodoList from "./components/TodoComponents/TodoList";
+import TodoForm from "./components/TodoComponents/TodoForm";
 
+import "./components/TodoComponents/Todo.css";
 
-const todos =
-[
-    {
-      task: 'Organize Garage',
-      id: Date.now(),
-      completed: false
-    },
-    {
-      task: 'Bake Cookies',
-      id: Date.now(),
-      completed: false
-    }
-  ];
+const todos = [
+  {
+    name: "Take out the garbage",
+    id: 123,
+    purchased: false
+  },
+  {
+    name: "Make Breakfast",
+    id: 124,
+    purchased: false
+  },
+  {
+    name: "Watch Lecture",
+    id: 1235,
+    purchased: false
+  },
+  {
+    name: "Work on project",
+    id: 1246,
+    purchased: false
+  },
+  {
+    name: "Go to Standup Meeting",
+    id: 1237,
+    purchased: false
+  }
+];
+
 class App extends React.Component {
-  // you will need a place to store your state in this component.
-  // design `App` to be the parent component of your application.
-  // this component is going to take care of state, and any change handlers you need to work with your state
-  constructor(){
+  constructor() {
     super();
-    
     this.state = {
-      todoOnState: todos,
-      todo: {
-        task: '',
-        id: Date.now(),
-        completed: false
-      }
-    }
-  }
-  render() {
-    return (
-      <div>
-        <TodoList 
-      todoList={this.state.todoOnState}/>
-        <TodoForm />
-      </div>
-    );
-    
+      todos
+    };
   }
 
-  addTodo = event => {
-    event.preventDefault();
-    const newTodo = { task: this.state.todo.task, completed: false, id: Date.now() };
-    this.setState({ 
-      todos: [...this.state.todos, newTodo], 
-      todo: '' 
+  addItem = item => {
+    
+    this.setState({
+      todos: [
+        ...this.state.todos,
+        { name: item, purchased: false, id: Date.now() }
+      ]
     });
   };
 
-  changeTodo = event => this.setState({ [event.target.name]: event.target.value });
-  
+  toggleComplete = id => {
+   
+    this.setState({
+      todos: this.state.todos.map(item =>
+        item.id === id ? { ...item, purchased: !item.purchased } : item
+      )
+    });
+  };
+
+  removePurchased = () => {
+ 
+    this.setState({
+      todos: this.state.todos.filter(item => !item.purchased)
+    });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <div className="header">
+          <h1>To Do List</h1>
+          <TodoForm addItem={this.addItem} />
+        </div>
+        <TodoList
+          todos={this.state.todos}
+          toggleComplete={this.toggleComplete}
+        />
+        <button onClick={this.removePurchased}>Clear Completed Tasks</button>
+      </div>
+    );
+  }
 }
 
 export default App;
